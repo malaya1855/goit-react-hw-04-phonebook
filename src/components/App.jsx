@@ -1,38 +1,21 @@
 import { ContactList, Filter, ContactForm } from 'components';
-// import ContactForm from './ContactForm/ContactForm';
 import { useState, useEffect } from 'react';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(window.localStorage.getItem('contacts')) ?? []
+  );
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    // const addStorage = () => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-    // if (prevContacts !== contacts) {
-    //   localStorage.setItem('contacts', JSON.stringify(contacts));
-    // }
-    // };
-    // const savedContacts = localStorage.getItem('contacts');
-    // const parsedContacts = JSON.parse(savedContacts);
-    // setContacts(parsedContacts);
-  }, [contacts]);
-
-  // const componentDidUpdate = (_, prevState) => {
-  //   if (prevState.contacts !== contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   }
-  // };
-
   const onHandleSubmit = newContact => {
-    console.log(newContact);
     const existedContact = contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
     if (existedContact) {
       alert(`${newContact.name} is already in your contacts`);
+    } else {
+      setContacts(prevContacts => [...prevContacts, newContact]);
     }
-    setContacts(prevContacts => [...prevContacts, newContact]);
   };
 
   const onChangeFilter = ev => {
@@ -46,9 +29,14 @@ const App = () => {
     );
     return filteredContacts;
   };
+
   const onDeleteBtn = id => {
     return setContacts(contacts.filter(contact => contact.id !== id));
   };
+
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <div>

@@ -3,22 +3,19 @@ import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
 export const ContactForm = ({ handleSubmit }) => {
-  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const newContact = { id, name, number };
 
   const onSubmitForm = ev => {
     ev.preventDefault();
-    setId(nanoid(5));
     ev.target.reset();
-    return handleSubmit(newContact);
+    const newContact = { id: nanoid(5), name, number };
+    handleSubmit(newContact);
   };
 
   const handleChange = ev => {
     const inputName = ev.currentTarget.name;
     const inputValue = ev.currentTarget.value;
-    console.log(inputValue);
     switch (inputName) {
       case 'name':
         setName(inputValue);
