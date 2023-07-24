@@ -12,7 +12,6 @@ export const ContactForm = ({ handleSubmit }) => {
     ev.preventDefault();
     setId(nanoid(5));
     ev.target.reset();
-    console.log(newContact);
     return handleSubmit(newContact);
   };
 

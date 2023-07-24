@@ -6,20 +6,20 @@ const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {});
+  useEffect(() => {
+    // const addStorage = () => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+    // };
+    // const savedContacts = localStorage.getItem('contacts');
+    // const parsedContacts = JSON.parse(savedContacts);
+    // setContacts(parsedContacts);
+  }, [contacts]);
 
-  const componentDidMount = () => {
-    const savedContacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(savedContacts);
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
-    }
-  };
-  const componentDidUpdate = (_, prevState) => {
-    if (prevState.contacts !== contacts) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    }
-  };
+  // const componentDidUpdate = (_, prevState) => {
+  //   if (prevState.contacts !== contacts) {
+  //     localStorage.setItem('contacts', JSON.stringify(contacts));
+  //   }
+  // };
 
   const onHandleSubmit = newContact => {
     const existedContact = contacts.find(
@@ -27,9 +27,9 @@ const App = () => {
     );
     if (existedContact) {
       alert(`${newContact.name} is already in your contacts`);
-    } else {
-      setContacts(newContact);
     }
+    setContacts(prevContacts => [...prevContacts, newContact]);
+    console.log(contacts);
   };
 
   const onChangeFilter = ev => {
@@ -38,9 +38,10 @@ const App = () => {
 
   const onFilteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
+    const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
+    return filteredContacts;
   };
   const onDeleteBtn = id => {
     return setContacts(contacts.filter(contact => contact.id !== id));
