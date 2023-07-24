@@ -9,6 +9,9 @@ const App = () => {
   useEffect(() => {
     // const addStorage = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    // if (prevContacts !== contacts) {
+    //   localStorage.setItem('contacts', JSON.stringify(contacts));
+    // }
     // };
     // const savedContacts = localStorage.getItem('contacts');
     // const parsedContacts = JSON.parse(savedContacts);
@@ -22,6 +25,7 @@ const App = () => {
   // };
 
   const onHandleSubmit = newContact => {
+    console.log(newContact);
     const existedContact = contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
@@ -29,7 +33,6 @@ const App = () => {
       alert(`${newContact.name} is already in your contacts`);
     }
     setContacts(prevContacts => [...prevContacts, newContact]);
-    console.log(contacts);
   };
 
   const onChangeFilter = ev => {
