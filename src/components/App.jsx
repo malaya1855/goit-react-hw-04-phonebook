@@ -17,7 +17,6 @@ const App = () => {
       setContacts(prevContacts => [...prevContacts, newContact]);
     }
   };
-  console.log(filter);
   const onChangeFilter = ev => {
     setFilter(ev.currentTarget.value);
   };
