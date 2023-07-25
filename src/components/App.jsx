@@ -7,6 +7,10 @@ const App = () => {
   );
   const [filter, setFilter] = useState('');
 
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
   const onHandleSubmit = newContact => {
     const existedContact = contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
@@ -30,12 +34,10 @@ const App = () => {
   };
 
   const onDeleteBtn = id => {
-    return setContacts(contacts.filter(contact => contact.id !== id));
+    return setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== id)
+    );
   };
-
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   return (
     <div>
